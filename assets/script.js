@@ -13,13 +13,6 @@ search.onclick = function(event) {
     event.preventDefault();
     weatherSearch();
 }
-// Search bar enter key handle event
-// city.keypress(function(event){
-//     if (event.keycode === 13) {
-//         event.preventDefault();
-//         weatherSearch();
-//     }
-// });
 
 // Function to clear and fetch data for selected Latitude and Longitude
 function weatherSearch() {
@@ -46,7 +39,7 @@ function oneCall(lat, lon, city) {
     fetch(
         "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=minutely,hourly,alerts&units=imperial&appid=" + apiKey
     )
-    .then((respone) => respone.json())
+    .then((res) => res.json())
     .then((data) => {
         displayCurrentWeather(data.current, city)
         forcast(data.daily, city)
@@ -75,8 +68,9 @@ function displayCurrentWeather(current, city){
     }
     // Fill card data and append to page
     card.setAttribute('class', 'card')
-    cardHeader.setAttribute('src', 'https://openweathermap.org/img/wn/'+ current.weather[0].icon +'@2x.png')
-    cardHeader.textContent =  city + ' ' + momentNow.format("MMM Do YY")
+    cardHeader.setAttribute('class', 'card-header')
+    weatherIcon.setAttribute('src', 'https://openweathermap.org/img/wn/'+ current.weather[0].icon +'@2x.png')
+    cardHeader.textContent =  city + ' ' + date.format("MMM Do YY")
     cardHeader.append(weatherIcon)
     card.append(cardHeader)
     currentWeather.append(card)
@@ -100,10 +94,10 @@ function displayCurrentWeather(current, city){
 }
 
 //collect data for forcast
-function forcast(day, city) {
+function forcast(daily, city) {
     for (var i=0; i<5; i++){
-        momentNow = moment();
-        var dateForcast = momentNow.add(i+1, 'days').format("MMM Do YY");
+        date = moment();
+        var dateForcast = date.add(i+1, 'days').format("MMM Do YY");
         //initialze page elements
         var forcastCard = document.createElement('div')
         var forcastCardHeader = document.createElement('div')
@@ -131,6 +125,12 @@ function forcast(day, city) {
         forcastWind.textContent = 'wind: ' + daily[i].wind_speed + ' MPH'
         forcastHum.textContent = 'humidity: ' + daily[i].humidity + '%'
         forcastUV.textContent = 'UV index: ' + daily[i].uvi
+        //append to page
+        ForcastWeatherValues.append(forcastTemp)
+        ForcastWeatherValues.append(forcastWind)
+        ForcastWeatherValues.append(forcastHum)
+        ForcastWeatherValues.append(forcastUV)
+        forcastCard.append(ForcastWeatherValues)
     }
 }
 
