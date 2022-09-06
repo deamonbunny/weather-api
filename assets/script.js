@@ -1,4 +1,4 @@
-var apiKey = "cb8e510d21aa419bc09da03ac6395f94";
+var apiKey = "ec4f51ab549c402396d72795f8b68224";
 var City = document.getElementById('searchCity');
 var search = document.getElementById('search');
 var currentWeather = document.getElementById('currentWeather');
